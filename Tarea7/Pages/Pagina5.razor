@@ -1,7 +1,49 @@
 ﻿@page "/pagina5"
 
+@using System.Net;
+@using Newtonsoft.Json;
+
 <h3>Listado de vacunados por signo zodiacal</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Signo</th>
+            <th>Cantidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Vacunados.Any())
+        {
+            @foreach (Vacunado vacunado in Vacunados)
+            {
+                <tr>
+                    <td>@vacunado.NOMBRE_S</td>
+                    <td>@vacunado.CANTIDAD</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
 
 @code {
 
+    @* public int MyProperty { get; set; } *@
+
+    List<Vacunado> Vacunados = new List<Vacunado>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var api = "https://api-vacuna.herokuapp.com/api/List_Signo";
+        WebClient cliente = new WebClient();
+        var datos = await cliente.DownloadStringTaskAsync(new Uri(api));
+        Vacunados = JsonConvert.DeserializeObject<List<Vacunado>>(datos);
+    }
+
+    public class Vacunado
+    {
+        public string NOMBRE_S { get; set; }
+
+        public int CANTIDAD { get; set; }
+    }
 }
