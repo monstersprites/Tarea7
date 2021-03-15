@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "GGc8k9Mzmuysgg2cuMsvcESuStVFohCtwMqG/gqX0EfE3IgXgVcRYqm3atqfoJ2N6Sm/rdsr7MZC/i4NY0Ff2w==",
+  "dgSpecHash": "o6iztfLlCjsylQP7hP/rbxtnbQKpcY+RbCYsAxQ5US4JXASezH7f1wtj18mzPIvHbt8uBkfEn2eXTQvJrZP53Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Daniel Lora\\Desktop\\Blazor's Apps\\Tarea7\\Tarea7.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/elmer/Desktop/tareas_de_p3/Tarea7/Tarea7/Tarea7.csproj",
+  "expectedPackageFiles": [
+    "/home/elmer/.nuget/packages/newtonsoft.json/12.0.3/newtonsoft.json.12.0.3.nupkg.sha512",
+    "/home/elmer/.nuget/packages/microsoft.netcore.app.host.linux-x64/3.1.12/microsoft.netcore.app.host.linux-x64.3.1.12.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -1,31 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Daniel Lora\\Desktop\\Blazor's Apps\\Tarea7\\Tarea7.csproj": {}
+    "/home/elmer/Desktop/tareas_de_p3/Tarea7/Tarea7/Tarea7.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Daniel Lora\\Desktop\\Blazor's Apps\\Tarea7\\Tarea7.csproj": {
+    "/home/elmer/Desktop/tareas_de_p3/Tarea7/Tarea7/Tarea7.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Daniel Lora\\Desktop\\Blazor's Apps\\Tarea7\\Tarea7.csproj",
+        "projectUniqueName": "/home/elmer/Desktop/tareas_de_p3/Tarea7/Tarea7/Tarea7.csproj",
         "projectName": "Tarea7",
-        "projectPath": "C:\\Users\\Daniel Lora\\Desktop\\Blazor's Apps\\Tarea7\\Tarea7.csproj",
-        "packagesPath": "C:\\Users\\Daniel Lora\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Daniel Lora\\Desktop\\Blazor's Apps\\Tarea7\\obj\\",
+        "projectPath": "/home/elmer/Desktop/tareas_de_p3/Tarea7/Tarea7/Tarea7.csproj",
+        "packagesPath": "/home/elmer/.nuget/packages/",
+        "outputPath": "/home/elmer/Desktop/tareas_de_p3/Tarea7/Tarea7/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Daniel Lora\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/elmer/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -37,6 +36,13 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -47,6 +53,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-x64",
+              "version": "[3.1.12, 3.1.12]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -55,7 +67,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.103/RuntimeIdentifierGraph.json"
         }
       }
     }
