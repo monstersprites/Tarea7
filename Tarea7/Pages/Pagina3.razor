@@ -46,7 +46,7 @@
 
         var api = "https://api-vacuna.herokuapp.com/api/Provinvias";
         WebClient cliente = new WebClient();
-        var datos = cliente.DownloadString(api);
+        var datos = await cliente.DownloadStringTaskAsync(api);
         provincias = JsonConvert.DeserializeObject<List<Root>>(datos);
 
     }
