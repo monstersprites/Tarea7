@@ -2,6 +2,78 @@
 
 <h3>Listado de vacunados por provincia</h3>
 
+<select class="form-select" aria-label="Default select example" @bind="provincia">
+    <option selected>Elija su provincia</option>
+    @foreach (var p in provincias)
+    {
+        <option value="@p.NOMBRE">@p.NOMBRE</option>
+    }
+</select>
+
+<button class="btn btn-light" @onclick="listadoProvincia">Listar</button>
+
+<table class="table">
+
+    <tr>
+        <th>Cédula</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Fecha P</th>
+        <th>Fecha S</th>
+    </tr>
+    @foreach (var a in resultados)
+    {
+
+<tr>
+    <td>@a.CEDULA</td>
+    <td>@a.NOMBRE</td>
+    <td>@a.APELLIDO</td>
+    <td>@a.FECHA_P</td>
+    <td>@a.FECHA_S</td>
+</tr>
+
+    }
+
+</table>
+
 @code {
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var api = "https://api-vacuna.herokuapp.com/api/Provinvias";
+        WebClient cliente = new WebClient();
+        var datos = cliente.DownloadString(api);
+        provincias = JsonConvert.DeserializeObject<List<Root>>(datos);
+
+    }
+
+    List<Root> resultados = new List<Root>();
+    string provincia;
+    List<Root> provincias = new List<Root>();
+
+    public void listadoProvincia()
+    {
+
+        var api = $"https://api-vacuna.herokuapp.com/api/List_Prov/{provincia}";
+        WebClient cliente = new WebClient();
+        var datos = cliente.DownloadString(api);
+        resultados = JsonConvert.DeserializeObject<List<Root>>(datos);
+
+    }
+
+
+    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+    public class Root
+    {
+        public string CEDULA { get; set; }
+        public string NOMBRE { get; set; }
+        public string APELLIDO { get; set; }
+        public string FECHA_P { get; set; }
+        public string FECHA_S { get; set; }
+    }
+
+
+
 
 }
