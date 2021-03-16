@@ -65,7 +65,7 @@
         <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
             <div class="card-body">
                 <p>
-                    Ingrese una nueva Provincia o seleccione de las que tenemos disponibles
+                    Seleccione una provincia y luego altere su nombre
                 </p>
                 <input type="text" @bind-value="ProvinciaSeleccionada">
                 <select class="form-select" aria-label="Default select example" @bind="ProvinciaSeleccionada">
@@ -85,6 +85,7 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Nombre</th>
                             </tr>
                         </thead>
