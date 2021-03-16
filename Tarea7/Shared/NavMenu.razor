@@ -1,5 +1,6 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">Tarea7</a>
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a style="font-size: 14px;" class="navbar-brand text-center" href=""><strong>SISTEMA DE CONTROL DE <br>VACUNAS</strong></a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,19 +10,46 @@
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-home" aria-hidden="true"></span> Inicio
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="Pagina1" Match="NavLinkMatch.All">
+                <span class="iconify" data-icon="codicon:save-as" data-inline="false"></span>Registrar
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            <NavLink class="nav-link" href="Pagina2">
+                <span class="iconify" data-icon="ant-design:search-outlined" data-inline="false"></span> Consulta Vacunados
             </NavLink>
         </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Pagina3">
+                <span class="iconify" data-icon="fa-solid:th-list" data-inline="false"></span>Lista Vacunados
+            </NavLink>
+        </li>
+                <li class="nav-item px-3" style="font-size: 10px;">
+            <NavLink class="nav-link" href="Pagina4">
+                <span class="iconify" data-icon="fa-solid:th-list" data-inline="false"></span>Lista Vacunados por Marca
+            </NavLink>
+        </li>
+                <li class="nav-item px-3" style="font-size: 10px;">
+            <NavLink class="nav-link" href="Pagina5">
+                <span class="iconify" data-icon="fa-solid:th-list" data-inline="false"></span>Listado de vacunados por signo
+            </NavLink>
+        </li>
+                <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Pagina6">
+                <span class="iconify" data-icon="ant-design:close-square-filled" data-inline="false"></span> Anular Registros
+            </NavLink>
+        </li>
+            
+                <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Pagina7">
+                <span class="iconify" data-icon="vscode-icons:file-type-light-config" data-inline="false"></span>Configuracion
+            </NavLink>
+        </li>
+       
     </ul>
 </div>
 
