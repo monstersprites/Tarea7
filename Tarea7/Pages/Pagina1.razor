@@ -1,15 +1,29 @@
-﻿@page "/pagina1"
-
-<h3>Registro de vacuna</h3>
+@page "/pagina1"
+<div class="card rounded border border-primary">
+<div class="card-head bg-primary">
+<h3 class="text-center text-white"><strong>Registro de vacuna</strong></h3>
+</div>
+</div>
+<br>
 
 <form>
-    <div class="mb-3">
-        <label for="txtcedula" class="form-label">Cédula</label>
-        <input type="text" class="form-control" id="txtcedula" @bind-value="cedula" aria-describedby="cedulaHelp">
-        <div id="cedulaHelp" class="form-text">La cédula debe tener 11 dígitos, no digite los guiones</div>
-    </div>
 
-    <br />
+    <div class="input-group mb-3">
+
+  <div class="input-group-prepend"><br>
+    <span class="input-group-text" id="basic-addon1">Cedula</span>
+  </div>
+         <input type="text" class="form-control" id="txtcedula" placeholder="Ingrese el Numero de Cedula" @bind-value="cedula" aria-describedby="cedulaHelp">
+
+</div>
+    <div id="cedulaHelp" class="form-text">La cédula debe tener 11 dígitos, no digite los guiones</div>
+    <br>
+
+
+
+
+
+
 
     <select class="form-select" aria-label="Default select example" @bind="vacuna">
         <option selected>Elija la marca de la vacuna</option>
