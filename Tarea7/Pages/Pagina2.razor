@@ -1,0 +1,58 @@
+﻿@page "/pagina2"
+
+<div class="card rounded border border-primary">
+<div class="card-head bg-primary">
+<h3 class="text-center text-white"><strong>Consulta de vacunados</strong></h3>
+</div>
+</div>
+
+<select class="form-select" aria-label="Default select example" @bind="filtro">
+    <option selected>Seleccione filtro</option>
+    <option value="Nombre">Nombre</option>
+    <option value="Apellido">Apellido</option>
+</select>
+
+<input type="text" placeholder="Ej. Nombre: José  /  Ej. Apellido: Mendez" @bind-value="busqueda"/>
+
+<button class="btn btn-light" @onclick="buscarFiltro">Buscar</button>
+
+@if (resultados != null) {
+<table class="table">
+
+    <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Dósis</th>
+    </tr>
+
+    <tr>
+        <td>@resultados.NOMBRE</td>
+        <td>@resultados.APELLIDO</td>
+        <td>@resultados.DOSIS</td>
+    </tr>
+
+</table>
+}
+
+@code {
+
+    Root resultados = null;
+    string filtro;
+    string busqueda;
+
+    public void buscarFiltro()
+    {
+        var api = $"https://api-vacuna.herokuapp.com/api/Consultar_V/{filtro}/{busqueda}";
+        WebClient cliente = new WebClient();
+        var datos = cliente.DownloadString(api);
+        resultados = JsonConvert.DeserializeObject<Root>(datos);
+    }
+
+    public class Root
+    {
+        public string NOMBRE { get; set; }
+        public string APELLIDO { get; set; }
+        public int DOSIS { get; set; }
+    }
+
+}

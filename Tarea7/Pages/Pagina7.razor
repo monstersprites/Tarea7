@@ -1,0 +1,202 @@
+﻿@page "/pagina7"
+<div class="card rounded border border-danger">
+<div class="card-head bg-danger">
+<h3 class="text-center text-white"><strong>Configuración</strong></h3>
+</div>
+</div>
+
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Configurar Vacuna
+                </button>
+            </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+                <p>
+                    Ingrese una nueva vacuna
+                </p>
+                <input type="text" @bind-value="VacunaNueva">
+                <br>
+                <p>
+                    Ingrese una cantidad
+                </p>
+                <input type="number" @bind-value="VacunaCantidad">
+                <button class="btn btn-primary" @onclick="SetVacuna">Ingresar</button>
+                <br>
+                @if (Vacunas != null)
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Marca</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Vacuna vacuna in Vacunas)
+                            {
+                                <tr>
+                                    <td>@vacuna.MARCA</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>Cargando...</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Configurar Provincias
+                </button>
+            </h5>
+        </div>
+        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+                <p>
+                    Ingrese una nueva Provincia o seleccione de las que tenemos disponibles
+                </p>
+                <input type="text" @bind-value="ProvinciaSeleccionada">
+                <select class="form-select" aria-label="Default select example" @bind="ProvinciaSeleccionada">
+                    <option selected>Elija su provincia</option>
+                    @if (ProvinciasAPI != null)
+                    {
+                        @foreach (Provincia provincia in ProvinciasAPI)
+                        {
+                            <option value="@provincia.NOMBRE">@provincia.NOMBRE</option>
+                        }
+                    }
+                </select>
+                <button class="btn btn-primary" @onclick="SetProvincia">Actualizar</button>
+                <br>
+                @if (ProvinciasAPI != null)
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Provincia provincia in ProvinciasAPI)
+                            {
+                                <tr>
+                                    <td>@Counter</td>
+                                    <td>@provincia.NOMBRE</td>
+                                </tr>
+                                IncreaseCount();
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>Cargando...</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    
+    [Inject]
+    IJSRuntime JS { get; set; }
+    private Vacuna[] Vacunas;
+    private string VacunaNueva;
+    private int VacunaCantidad;
+    private List<string> Provincias = new List<string>() { "Azua", "Bahoruco", "Barahona", "Dajabón", "Distrito Nacional", "Duarte", "Elías Piña", "El Seibo", "Espaillat", "Hato Mayor", "Hermanas Mirabal", "Independencia", "La Altagracia", "La Romana", "La Vega", "María Trinidad Sánchez", "Monseñor Nouel", "Monte Cristi", "Monte Plata", "Pedernales", "Peravia", "Puerto Plata", "Samaná", "Sánchez Ramírez", "San Cristóbal", "San José de Ocoa", "San Juan", "San Pedro de Macorís", "Santiago", "Santiago Rodríguez", "Santo Domingo", "Valverde" };
+    private Provincia[] ProvinciasAPI;
+    private string ProvinciaSeleccionada;
+    private int Counter = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetVacunas();
+        await GetProvincias();
+    }
+
+    public void IncreaseCount()
+    {
+        Counter++;
+    }
+
+    public async Task SetProvincia()
+    {
+        if (ProvinciaSeleccionada != "Elija su provincia" || ProvinciaSeleccionada != null)
+        {
+            var pos = Provincias.IndexOf(ProvinciaSeleccionada) + 1;
+            var api = $"https://api-vacuna.herokuapp.com/api/Modificar_Pro/{ProvinciaSeleccionada}/{pos}";
+            WebClient cliente = new WebClient();
+            var datos = await cliente.DownloadStringTaskAsync(new Uri(api));
+            var result = JsonConvert.DeserializeObject<Result>(datos);
+
+            await JS.InvokeAsync<object>("alert", result.mensaje);
+            await GetProvincias();
+        }
+        else
+        {
+            await JS.InvokeAsync<object>("alert", "Debe seleccionar una provincia");
+        }
+    }
+
+    public async Task SetVacuna()
+    {
+        if (VacunaNueva != null && VacunaCantidad > 0)
+        {
+            var api = $"https://api-vacuna.herokuapp.com/api/Registrar_v/{VacunaNueva}/{VacunaCantidad}";
+            WebClient cliente = new WebClient();
+            var datos = await cliente.DownloadStringTaskAsync(new Uri(api));
+            var result = JsonConvert.DeserializeObject<Result>(datos);
+
+            await JS.InvokeAsync<object>("alert", result.mensaje);
+            await GetVacunas();
+        }
+        else
+        {
+            await JS.InvokeAsync<object>("alert", "Debe completar los campos correctamente");
+        }
+    }
+
+    public async Task GetProvincias()
+    {
+        var api = $"https://api-vacuna.herokuapp.com/api/Provinvias";
+        WebClient cliente = new WebClient();
+        var datos = await cliente.DownloadStringTaskAsync(new Uri(api));
+        ProvinciasAPI = JsonConvert.DeserializeObject<Provincia[]>(datos);
+    }
+
+    public async Task GetVacunas()
+    {
+        var api = $"https://api-vacuna.herokuapp.com/api/Vacunas";
+        WebClient cliente = new WebClient();
+        var datos = await cliente.DownloadStringTaskAsync(new Uri(api));
+        Vacunas= JsonConvert.DeserializeObject<Vacuna[]>(datos);
+    }
+
+    public class Provincia
+    {
+        public string NOMBRE { get; set; }
+    }
+
+    public class Vacuna
+    {
+        public string MARCA { get; set; }
+    }
+
+    public class Result
+    {
+        public string mensaje { get; set; }
+    }
+}

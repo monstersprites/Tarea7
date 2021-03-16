@@ -1,0 +1,111 @@
+﻿@page "/pagina1"
+<div class="card rounded border border-primary">
+<div class="card-head bg-primary">
+<h3 class="text-center text-white"><strong>Registro de vacuna</strong></h3>
+</div>
+</div>
+<br>
+
+<form>
+
+    <div class="input-group mb-3">
+
+  <div class="input-group-prepend"><br>
+    <span class="input-group-text" id="basic-addon1">Cedula</span>
+  </div>
+         <input type="text" class="form-control" id="txtcedula" placeholder="Ingrese el Numero de Cedula" @bind-value="cedula" aria-describedby="cedulaHelp">
+
+</div>
+    <div id="cedulaHelp" class="form-text">La cédula debe tener 11 dígitos, no digite los guiones</div>
+    <br>
+
+
+
+
+
+
+
+    <select class="form-select" aria-label="Default select example" @bind="vacuna">
+        <option selected>Elija la marca de la vacuna</option>
+        @foreach (var v in vacunas)
+        {
+            <option value="@v.MARCA">@v.MARCA</option>
+        }
+    </select>
+
+    <br />
+
+    <select class="form-select" aria-label="Default select example" @bind="provincia">
+        <option selected>Elija su provincia</option>
+        @foreach (var p in provincias)
+        {
+            <option value="@p.NOMBRE">@p.NOMBRE</option>
+        }
+    </select>
+
+    <br />
+
+    <div class="mb-3">
+        <label for="txtfecha" class="form-label">Fecha</label>
+        <input type="date" class="form-control" id="txtfecha" @bind-value="fecha">
+    </div>
+
+    <br />
+
+    <button class="btn btn-primary" @onclick="registrarVacuna">Registrar</button>
+
+</form>
+
+@API
+
+@if (resultado != null)
+{
+    <h3>@resultado.mensaje</h3>
+}
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var api1 = "https://api-vacuna.herokuapp.com/api/Provinvias";
+        var api2 = "https://api-vacuna.herokuapp.com/api/Vacunas";
+        WebClient cliente = new WebClient();
+        var datos1 = cliente.DownloadString(api1);
+        var datos2 = cliente.DownloadString(api2);
+        provincias = JsonConvert.DeserializeObject<List<Root>>(datos1);
+        vacunas = JsonConvert.DeserializeObject<List<Root>>(datos2);
+
+    }
+
+    string cedula, vacuna, provincia;
+    DateTime fecha;
+    Root resultado;
+    List<Root> provincias = new List<Root>();
+    List<Root> vacunas = new List<Root>();
+    string API;
+
+    public void registrarVacuna()
+    {
+        //provincia = provincia.Replace(" ", "%20");
+        string dia = fecha.Day.ToString();
+        string mes = fecha.Month.ToString();
+        string year = fecha.Year.ToString();
+        API = $"https://api-vacuna.herokuapp.com/api/Registrar_P/" + cedula + "/" + vacuna + "/" + provincia + "/" + dia + "-" + mes + "-" + year;
+        WebClient cliente = new WebClient();
+        var post = cliente.DownloadString(API);
+        resultado = JsonConvert.DeserializeObject<Root>(post);
+    }
+
+
+    public class Root
+    {
+
+        public string mensaje { get; set; }
+        public string NOMBRE { get; set; } //Provincia
+        public string MARCA { get; set; } //Vacuna
+
+    }
+
+
+}

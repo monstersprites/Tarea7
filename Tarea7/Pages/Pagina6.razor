@@ -1,0 +1,54 @@
+@page "/pagina6"
+
+@using System.Net;
+@using Newtonsoft.Json;
+<br>
+<div class="row">
+<div class="col-md-3"></div>
+<div class="col-md-6">
+    <div class="card rounded border border-primary">
+<div class="card-head bg-primary">
+<h3 class="text-center text-white"><strong>Anular registro de vacunación</strong></h3>
+</div>
+    </div>
+
+
+<p>
+    Ingrese la cedula del paciente y presione Borrar
+</p>
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">Cedula</span>
+  </div>
+  <input type="text" class="form-control" @bind-value="Cedula" placeholder="Ingrese el Numero de Cedula"aria-label="Username" aria-describedby="basic-addon1">
+</div>
+<div class="float-right">
+    <button class="btn btn-success" @onclick="BorrarPersona">Borrar</button>
+</div>
+</div>
+<div class="col-md-3"></div>
+</div>
+@code {
+
+    [Inject]
+    IJSRuntime JS { get; set; }
+    
+    Result Resultado = new Result();
+    
+    public string Cedula { get; set; }
+
+    public async Task BorrarPersona()
+    {
+        var api = $"https://api-vacuna.herokuapp.com/api/Eliminar_V/{Cedula}";
+        WebClient cliente = new WebClient();
+        var datos = await cliente.DownloadStringTaskAsync(new Uri(api));
+        Resultado = JsonConvert.DeserializeObject<Result>(datos);
+
+        await JS.InvokeAsync<object>("alert", Resultado.mensaje);
+    }
+
+    public class Result
+    {
+        public string mensaje { get; set; }
+    }
+}

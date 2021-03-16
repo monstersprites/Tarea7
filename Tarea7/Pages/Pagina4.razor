@@ -1,0 +1,50 @@
+﻿@page "/pagina4"
+
+<div class="card rounded border border-primary">
+<div class="card-head bg-primary">
+<h3 class="text-center text-white"><strong>Listado de vacunados por marca de vacuna</strong></h3>
+</div>
+</div>
+<br>
+<button class="btn btn-info" @onclick="marcaVacunas">Listar</button>
+<br>
+<table class="table">
+
+    <tr>
+        <th>Marca</th>
+        <th>Cantidad</th>
+    </tr>
+    @foreach (var a in resultados)
+    {
+        <tr>
+            <td>@a.MARCA</td>
+            <td>@a.CANTIDAD</td>
+        </tr>
+    }
+
+</table>
+
+@code {
+
+    List<Root> resultados = new List<Root>();
+
+    public void marcaVacunas()
+    {
+
+        var api = "https://api-vacuna.herokuapp.com/api/List_Marca";
+        WebClient cliente = new WebClient();
+        var datos = cliente.DownloadString(api);
+        resultados = JsonConvert.DeserializeObject<List<Root>>(datos);
+
+    }
+
+    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
+    public class Root
+    {
+        public string MARCA { get; set; }
+        public int CANTIDAD { get; set; }
+    }
+
+
+
+}

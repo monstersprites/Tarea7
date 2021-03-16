@@ -1,0 +1,45 @@
+﻿@page "/pagina5"
+<div class="card">
+<div class="card-head bg-primary border border-primary rounded">
+<h3 class="text-center text-white"><strong>Listado de vacunados por signo zodiacal</strong></h3>
+</div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Signo</th>
+            <th>Cantidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Vacunados.Any())
+        {
+            @foreach (Vacunado vacunado in Vacunados)
+            {
+                <tr>
+                    <td>@vacunado.NOMBRE_S</td>
+                    <td>@vacunado.CANTIDAD</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+
+    List<Vacunado> Vacunados = new List<Vacunado>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var api = "https://api-vacuna.herokuapp.com/api/List_Signo";
+        WebClient cliente = new WebClient();
+        var datos = await cliente.DownloadStringTaskAsync(new Uri(api));
+        Vacunados = JsonConvert.DeserializeObject<List<Vacunado>>(datos);
+    }
+
+    public class Vacunado
+    {
+        public string NOMBRE_S { get; set; }
+        public int CANTIDAD { get; set; }
+    }
+}
